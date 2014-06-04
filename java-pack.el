@@ -22,8 +22,7 @@
   (require 'eclim)
 
   (custom-set-variables
-   '(eclim-eclipse-dirs '(*ECLIPSE_HOME*))
-   '(eclim-executable (format "%s/eclim" *ECLIPSE_HOME*)))
+   '(eclim-eclipse-dirs `(,*ECLIPSE_HOME*)))
 
   (global-eclim-mode)
 
