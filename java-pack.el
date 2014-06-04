@@ -5,7 +5,9 @@
 ;;; Code:
 
 (require 'install-packages-pack)
-(install-packs '(emacs-eclim))
+(install-packs '(emacs-eclim
+                 auto-complete
+                 company))
 
 ;; ===================== setup file
 
@@ -24,6 +26,31 @@
    '(eclim-executable (format "%s/eclim" *ECLIPSE_HOME*)))
 
   (global-eclim-mode)
+
+  ;; When the cursor is positioned on an error marker in a code buffer, emacs-eclim
+  ;; uses the local help feature in emacs to display the corresponding error message in the echo area.
+  ;; You can either invoke (display-local-help) manually or activate automatic display of local help by adding the following to .emacs:
+  (setq help-at-pt-display-when-idle t)
+  (setq help-at-pt-timer-delay 0.1)
+  (help-at-pt-set-timer)
+
+  ;; If you wish to use auto-complete-mode with emacs-eclim, add the following to your .emacs:
+  ;; regular auto-complete initialization
+  (require 'auto-complete-config)
+  (ac-config-default)
+
+  ;; add the emacs-eclim source
+  (require 'ac-emacs-eclim-source)
+  (ac-emacs-eclim-config)
+
+  ;; Configuring company-mode
+  ;; Emacs-eclim can integrate with company-mode to provide pop-up dialogs for auto-completion.
+  ;; To activate this, you need to add the following to your .emacs:
+
+  (require 'company)
+  (require 'company-emacs-eclim)
+  (company-emacs-eclim-setup)
+  (global-company-mode t)
 
   (mail-pack/--log "Setup done!"))
 
