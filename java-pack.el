@@ -6,7 +6,6 @@
 
 (require 'install-packages-pack)
 (install-packs '(emacs-eclim
-                 auto-complete
                  company))
 
 ;; ===================== setup file
@@ -32,15 +31,6 @@
   (setq help-at-pt-display-when-idle t)
   (setq help-at-pt-timer-delay 0.1)
   (help-at-pt-set-timer)
-
-  ;; If you wish to use auto-complete-mode with emacs-eclim, add the following to your .emacs:
-  ;; regular auto-complete initialization
-  (require 'auto-complete-config)
-  (ac-config-default)
-
-  ;; add the emacs-eclim source
-  (require 'ac-emacs-eclim-source)
-  (ac-emacs-eclim-config)
 
   ;; Configuring company-mode
   ;; Emacs-eclim can integrate with company-mode to provide pop-up dialogs for auto-completion.
