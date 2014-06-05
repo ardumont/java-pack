@@ -42,6 +42,7 @@
   (company-emacs-eclim-setup)
   (global-company-mode t)
 
+  (require 'eclimd)
   (mail-pack/--log "Setup done!"))
 
 ;; ===================== setup functions
