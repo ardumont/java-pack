@@ -5,8 +5,8 @@
 ;;; Code:
 
 (require 'install-packages-pack)
-(install-packs '(emacs-eclim
-                 company))
+(install-packages-pack/install-packs '(emacs-eclim
+                                       company))
 
 ;; ===================== setup file
 
