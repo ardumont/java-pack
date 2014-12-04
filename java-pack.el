@@ -6,7 +6,8 @@
 
 (require 'install-packages-pack)
 (install-packages-pack/install-packs '(emacs-eclim
-                                       company))
+                                       company
+                                       maven-test-mode))
 
 ;; ===================== setup file
 
@@ -19,6 +20,7 @@
 (defun java-pack/--setup! ()
   "Setup the java-pack"
   (require 'eclim)
+  (require 'maven-test-mode)
 
   (custom-set-variables
    `(eclim-eclipse-dirs (,*ECLIPSE_HOME*))
