@@ -11,6 +11,8 @@
 
 ;; ===================== setup file
 
+(defvar *java-pack/with-eclim* nil "Determine if I want to use eclim or not.")
+
 (defvar *ECLIPSE_HOME* nil "Eclipse's installation folder.")
 
 (defun java-pack/--log (str)
@@ -21,38 +23,40 @@
   "Setup the java-pack"
   (require 'eclim)
   (require 'maven-test-mode)
+  (when *java-pack/with-eclim*
+    (custom-set-variables
+     `(eclim-eclipse-dirs (,*ECLIPSE_HOME*))
+     `(eclim-executable ,(format "%s/eclim" *ECLIPSE_HOME*)))
 
-  (custom-set-variables
-   `(eclim-eclipse-dirs (,*ECLIPSE_HOME*))
-   `(eclim-executable ,(format "%s/eclim" *ECLIPSE_HOME*)))
+    (global-eclim-mode)
 
-  (global-eclim-mode)
+    ;; When the cursor is positioned on an error marker in a code buffer, emacs-eclim
+    ;; uses the local help feature in emacs to display the corresponding error message in the echo area.
+    ;; You can either invoke (display-local-help) manually or activate automatic display of local help by adding the following to .emacs:
+    (setq help-at-pt-display-when-idle t)
+    (setq help-at-pt-timer-delay 0.1)
+    (help-at-pt-set-timer)
 
-  ;; When the cursor is positioned on an error marker in a code buffer, emacs-eclim
-  ;; uses the local help feature in emacs to display the corresponding error message in the echo area.
-  ;; You can either invoke (display-local-help) manually or activate automatic display of local help by adding the following to .emacs:
-  (setq help-at-pt-display-when-idle t)
-  (setq help-at-pt-timer-delay 0.1)
-  (help-at-pt-set-timer)
+    ;; Configuring company-mode
+    ;; Emacs-eclim can integrate with company-mode to provide pop-up dialogs for auto-completion.
+    ;; To activate this, you need to add the following to your .emacs:
 
-  ;; Configuring company-mode
-  ;; Emacs-eclim can integrate with company-mode to provide pop-up dialogs for auto-completion.
-  ;; To activate this, you need to add the following to your .emacs:
+    (require 'company)
+    (require 'company-emacs-eclim)
+    (company-emacs-eclim-setup)
+    (global-company-mode t)
 
-  (require 'company)
-  (require 'company-emacs-eclim)
-  (company-emacs-eclim-setup)
-  (global-company-mode t)
-
-  (require 'eclimd)
-  (java-pack/--log "Setup done!"))
+    (require 'eclimd)
+    (java-pack/--log "Setup done!")))
 
 ;; ===================== setup functions
 
 (defun java-pack/--setup-possible-p! ()
   "Check if the setup is possible by checking the value of *ECLIPSE-HOME*.
 When not set, the setup is not possible, otherwise, all is good."
-  (setq *ECLIPSE_HOME* (getenv "ECLIPSE_HOME")))
+  (if *java-pack/with-eclim*
+      (setq *ECLIPSE_HOME* (getenv "ECLIPSE_HOME"))
+    t))
 
 ;; ===================== setup routine
 
