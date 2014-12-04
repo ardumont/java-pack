@@ -12,7 +12,7 @@
 
 (defvar *ECLIPSE_HOME* nil "Eclipse's installation folder.")
 
-(defun mail-pack/--log (str)
+(defun java-pack/--log (str)
   "Log STR with specific pack prefix."
   (message "java-pack - %s" str))
 
@@ -43,7 +43,7 @@
   (global-company-mode t)
 
   (require 'eclimd)
-  (mail-pack/--log "Setup done!"))
+  (java-pack/--log "Setup done!"))
 
 ;; ===================== setup functions
 
@@ -59,7 +59,7 @@ When not set, the setup is not possible, otherwise, all is good."
   (interactive)
   (if (java-pack/--setup-possible-p!)
       (java-pack/--setup!)
-    (mail-pack/--log (concat "This pack depends on eclipse and eclim installation.\n"
+    (java-pack/--log (concat "This pack depends on eclipse and eclim installation.\n"
                              "You need to setup your *ECLIPSE-HOME* to your rightful eclipse home folder.\n"
                              "Otherwise, this pack will not load!"))))
 
